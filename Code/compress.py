@@ -42,7 +42,7 @@ class compress_csv:
         #Escribimos los datos del compressed_data a un csv para ser exportado
         img_input_name = img_input.replace('./', '')
         img_input_name = img_input_name.replace('/', '')
-        compressed_img = f"./Compressed-{img_input_name}"
+        compressed_img = f"./Compressed--{img_input_name}"
         with open( compressed_img, "w") as file:
             for row in compressed_data:
                 row_length = len(row)

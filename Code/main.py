@@ -1,6 +1,6 @@
 from compress import compress_csv
 
-img = "./csv/enfermo_csv/jesus.csv"
+img = ".csv" #Image to compress
 
 def main(file):
     compress = compress_csv()
