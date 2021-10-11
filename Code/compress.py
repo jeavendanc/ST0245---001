@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from numpy import genfromtxt
 from matplotlib import pyplot
@@ -42,7 +43,7 @@ class compress_csv:
         #Escribimos los datos del compressed_data a un csv para ser exportado
         img_input_name = img_input.replace('./', '')
         img_input_name = img_input_name.replace('/', '')
-        compressed_img = f"./Compressed--{img_input_name}"
+        compressed_img = f"./Compressed-{img_input_name}"
         with open( compressed_img, "w") as file:
             for row in compressed_data:
                 row_length = len(row)
@@ -67,17 +68,20 @@ class compress_csv:
         rows = 1
         columns = 2
 
+        original_size = os.path.getsize('original.png')/1000
+        compressed_size = os.path.getsize('compressed.png')/1000
+
         original_img = cv2.imread('original.png')
         compressed_img = cv2.imread('compressed.png')
 
         fig.add_subplot(rows, columns, 1)
         pyplot.imshow(original_img)
         pyplot.axis('off')
-        pyplot.title("Imagen Original")
+        pyplot.title("Original Image\nSize : {:.2f} kb".format(original_size))
         
         fig.add_subplot(rows, columns, 2)
         pyplot.imshow(compressed_img)
         pyplot.axis('off')
-        pyplot.title("Imagen Comprimida")
+        pyplot.title("Compressed Image\nSize : {:.2f} kb".format(compressed_size))
 
         pyplot.show()
