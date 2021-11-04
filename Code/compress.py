@@ -58,30 +58,25 @@ class compress_csv:
 
     def show_img(self, img_input, compressed_img):
         original = genfromtxt(img_input, delimiter=',')
-        imsave('original.png', original, cmap='gray')
         
         compressed = genfromtxt(compressed_img, delimiter=',')
-        imsave('compressed.png', compressed, cmap='gray')
 
         fig = pyplot.figure(figsize=(8, 8))
 
         rows = 1
         columns = 2
 
-        original_size = os.path.getsize('original.png')/1000
-        compressed_size = os.path.getsize('compressed.png')/1000
-
-        original_img = cv2.imread('original.png')
-        compressed_img = cv2.imread('compressed.png')
+        #original_size = os.path.getsize(img_input)/1000
+        #compressed_size = os.path.getsize(compressed_img)/1000
 
         fig.add_subplot(rows, columns, 1)
-        pyplot.imshow(original_img)
+        pyplot.imshow(original, cmap = "gray")
         pyplot.axis('off')
-        pyplot.title("Original Image\nSize : {:.2f} kb".format(original_size))
+        pyplot.title("Original Image")
         
         fig.add_subplot(rows, columns, 2)
-        pyplot.imshow(compressed_img)
+        pyplot.imshow(compressed, cmap = "gray")
         pyplot.axis('off')
-        pyplot.title("Compressed Image\nSize : {:.2f} kb".format(compressed_size))
+        pyplot.title("Compressed Image")
 
         pyplot.show()
