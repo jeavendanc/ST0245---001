@@ -4,19 +4,22 @@ from numpy import genfromtxt
 from matplotlib import pyplot
 from matplotlib.image import imsave
 import cv2
+import time
 
 class compress_csv:
     def __init__(self):
         pass
     
-    def compress_file(self, img_input):
-
-        img_data = np.genfromtxt(img_input, delimiter=',')
+    def compress_file(self, img_input, img_path):
+        print(f"Compressing {img_input}....")
+        
+        start = time.time()
+        img_data = np.genfromtxt(img_path + img_input, delimiter=',')
 
         img_height = len(img_data)
         img_width = len(img_data[0])
 
-        compressed_data = np.genfromtxt(img_input, delimiter=',')
+        compressed_data = np.genfromtxt(img_path + img_input, delimiter=',')
 
         for i in range(int(img_height / 4)):
             for j in range(int(img_width / 4)):
@@ -41,9 +44,7 @@ class compress_csv:
                     compressed_data[i*4:(i*4)+4, j*4:(j*4)+4] = square
 
         #Escribimos los datos del compressed_data a un csv para ser exportado
-        img_input_name = img_input.replace('./', '')
-        img_input_name = img_input_name.replace('/', '')
-        compressed_img = f"./Compressed-{img_input_name}"
+        compressed_img = f"./Compressed_csv/Compressed-{img_input}"
         with open( compressed_img, "w") as file:
             for row in compressed_data:
                 row_length = len(row)
@@ -54,29 +55,8 @@ class compress_csv:
                     else:
                         file.write(f'{int(cell)},')
 
+        imsave(f'./Compressed_png/Compressed-{img_input.replace(".csv", ".png")}', compressed_data, cmap='gray')
         self.compressed_img = compressed_img
+        end = time.time()
+        print(f"Compressed. Time elapsed: {end-start}s")
 
-    def show_img(self, img_input, compressed_img):
-        original = genfromtxt(img_input, delimiter=',')
-        
-        compressed = genfromtxt(compressed_img, delimiter=',')
-
-        fig = pyplot.figure(figsize=(8, 8))
-
-        rows = 1
-        columns = 2
-
-        #original_size = os.path.getsize(img_input)/1000
-        #compressed_size = os.path.getsize(compressed_img)/1000
-
-        fig.add_subplot(rows, columns, 1)
-        pyplot.imshow(original, cmap = "gray")
-        pyplot.axis('off')
-        pyplot.title("Original Image")
-        
-        fig.add_subplot(rows, columns, 2)
-        pyplot.imshow(compressed, cmap = "gray")
-        pyplot.axis('off')
-        pyplot.title("Compressed Image")
-
-        pyplot.show()
